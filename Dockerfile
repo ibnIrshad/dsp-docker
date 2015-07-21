@@ -3,10 +3,15 @@ FROM debian:jessie
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && \
-    apt-get install -y curl apache2 php5 php5-common php5-cli php5-curl php5-json php5-mcrypt php5-gd php5-mysql mysql-client git php-pear php5-dev && \
+    apt-get install -y curl apache2 php5 php5-common php5-cli php5-curl php5-json php5-mcrypt php5-gd php5-mysql mysql-client git php-pear php5-dev libv8-dev g++ cpp && \
     rm -rf /var/lib/apt/lists/*
 
 RUN pecl install mongo
+
+RUN pecl install v8js-0.1.3
+
+RUN echo "extension=v8js.so" | tee /etc/php5/mods-available/v8js.ini && \
+    php5enmod v8js
 
 RUN echo "ServerName localhost" | tee /etc/apache2/conf-available/servername.conf && \
     a2enconf servername
