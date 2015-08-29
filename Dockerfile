@@ -8,6 +8,8 @@ RUN apt-get update && \
 
 RUN pecl install mongo
 
+RUN echo "extension=mongo.so" | tee /etc/php5/mods-available/mongo.ini
+
 RUN pecl install v8js-0.1.3
 
 RUN echo "extension=v8js.so" | tee /etc/php5/mods-available/v8js.ini && \
